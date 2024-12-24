@@ -1,156 +1,113 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生日礼物大放送</title>
     <style>
         body {
-            background: url('birthday.jpeg') no-repeat center center fixed; /* 替换为你的动漫背景图片 */
+            font-family: 'Arial', sans-serif;
+            background-image: url('birthday_theme_background.jpg');
             background-size: cover;
-            font-family: '浪漫字体', sans-serif;
-            color: #fff;
             text-align: center;
-            padding: 20px;
+            color: #fff;
         }
+
         .title {
-            font-size: 36px;
-            color: #ff69b4;
-            margin-bottom: 20px;
+            font-size: 40px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
         }
-        .prize-grid {
+
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            width: 80%;
-            margin: 0 auto;
+            grid-gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
         }
-        .prize-item {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 10px;
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
             text-align: center;
-            color: #000;
-            transition: all 0.3s ease;
-        }
-        .prize-item img {
-            max-width: 100%;
+            font-size: 18px;
             border-radius: 10px;
-        }
-        .prize-item.highlight {
-            background: #ff69b4;
-            color: #fff;
-            transform: scale(1.1);
-            box-shadow: 0 0 10px #ff69b4;
-        }
-        .draw-button {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 24px;
-            color: #fff;
-            background: #ff69b4;
-            border: none;
-            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 10px #ff69b4;
         }
-        .draw-button:hover {
-            background: #ff1493;
+
+        .highlight {
+            border: 3px solid gold;
+            background-color: rgba(255, 255, 0, 0.5);
         }
-        .draw-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #ff66cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #ff3385;
         }
     </style>
 </head>
 <body>
+
     <div class="title">生日礼物大放送</div>
-    <div class="prize-grid" id="prizeGrid">
-        <div class="prize-item" data-prize="LV白棋盘包包"><img src="lv_bag.jpg" alt="LV白棋盘包包"><br>LV白棋盘包包</div>
-        <div class="prize-item" data-prize="蒂芙尼项链"><img src="tiffany_necklace.jpg" alt="蒂芙尼项链"><br>蒂芙尼项链</div>
-        <div class="prize-item" data-prize="阿玛尼手表"><img src="armani_watch.jpg" alt="阿玛尼手表"><br>阿玛尼手表</div>
-        <div class="prize-item" data-prize="香奈儿香水"><img src="chanel_perfume.jpg" alt="香奈儿香水"><br>香奈儿香水</div>
-        <div class="prize-item" data-prize="YSL口红"><img src="ysl_lipstick.jpg" alt="YSL口红"><br>YSL口红</div>
-        <div class="prize-item" data-prize="海鲜自助餐"><img src="seafood_buffet.jpg" alt="海鲜自助餐"><br>海鲜自助餐</div>
-        <div class="prize-item" data-prize="小辣鱼若干包"><img src="spicy_fish.jpg" alt="小辣鱼若干包"><br>小辣鱼若干包</div>
-        <div class="prize-item" data-prize="RMB10元"><img src="rmb_10.jpg" alt="RMB10元"><br>RMB10元</div>
-        <div class="prize-item" data-prize="男朋友香吻一个"><img src="boyfriend_kiss.jpg" alt="男朋友香吻一个"><br>男朋友香吻一个</div>
+
+    <div class="grid-container">
+        <div class="grid-item" id="gift1">LV白棋盘包包</div>
+        <div class="grid-item" id="gift2">蒂芙尼项链</div>
+        <div class="grid-item" id="gift3">阿玛尼手表</div>
+        <div class="grid-item" id="gift4">香奈儿香水</div>
+        <div class="grid-item" id="gift5">YSL口红</div>
+        <div class="grid-item" id="gift6">海鲜自助餐</div>
+        <div class="grid-item" id="gift7">小辣鱼若干包</div>
+        <div class="grid-item" id="gift8">RMB10元</div>
+        <div class="grid-item" id="gift9">男朋友香吻</div>
     </div>
-    <button class="draw-button" id="drawButton">点击抽奖</button>
+
+    <button class="btn" onclick="startLottery()">抽奖</button>
 
     <script>
-        const prizes = document.querySelectorAll('.prize-item');
-        const drawButton = document.getElementById('drawButton');
-        let remainingChances = 3; // 总抽奖机会
-        let isDrawing = false; // 是否正在抽奖
+        let currentSelection = 0;
+        let interval;
+        let spinTimes = 0;
 
-        // 抽奖逻辑
-        function drawPrize() {
-            if (isDrawing || remainingChances <= 0) return;
-            isDrawing = true;
-            drawButton.disabled = true;
+        const gifts = [
+            'gift1', 'gift2', 'gift3', 'gift4', 'gift5', 'gift6', 'gift7', 'gift8', 'gift9'
+        ];
 
-            let currentIndex = 0;
-            let speed = 100; // 初始速度
-
-            // 模拟抽奖过程
-            const drawInterval = setInterval(() => {
-                // 取消上一个高亮
-                prizes[currentIndex].classList.remove('highlight');
-                // 切换到下一个奖品
-                currentIndex = (currentIndex + 1) % prizes.length;
-                prizes[currentIndex].classList.add('highlight');
-
-                // 逐渐减速
-                if (speed < 1000) {
-                    speed += 50;
-                }
-
-                // 最后一次抽奖，固定结果
-                if (remainingChances === 1 && speed >= 1000) {
-                    clearInterval(drawInterval);
-                    setTimeout(() => {
-                        highlightPrize('LV白棋盘包包');
-                        remainingChances--;
-                        isDrawing = false;
-                        drawButton.disabled = false;
-                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
-                    }, 1000);
-                } else if (remainingChances === 2 && speed >= 1000) {
-                    clearInterval(drawInterval);
-                    setTimeout(() => {
-                        highlightPrize('RMB10元');
-                        remainingChances--;
-                        isDrawing = false;
-                        drawButton.disabled = false;
-                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
-                    }, 1000);
-                } else if (remainingChances === 3 && speed >= 1000) {
-                    clearInterval(drawInterval);
-                    setTimeout(() => {
-                        highlightPrize('男朋友香吻一个');
-                        remainingChances--;
-                        isDrawing = false;
-                        drawButton.disabled = false;
-                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
-                    }, 1000);
-                }
-            }, speed);
+        function highlightGift() {
+            document.getElementById(gifts[currentSelection]).classList.remove('highlight');
+            currentSelection = (currentSelection + 1) % gifts.length;
+            document.getElementById(gifts[currentSelection]).classList.add('highlight');
         }
 
-        // 高亮显示中奖奖品
-        function highlightPrize(prizeName) {
-            prizes.forEach(prize => {
-                if (prize.getAttribute('data-prize') === prizeName) {
-                    prize.classList.add('highlight');
-                } else {
-                    prize.classList.remove('highlight');
-                }
-            });
-        }
+        function startLottery() {
+            if (spinTimes < 3) {
+                interval = setInterval(highlightGift, 100);
+                spinTimes++;
 
-        // 绑定抽奖按钮点击事件
-        drawButton.addEventListener('click', drawPrize);
+                // First two spins: RMB10 and 男朋友香吻
+                if (spinTimes === 1) {
+                    setTimeout(() => { clearInterval(interval); document.getElementById('gift9').classList.add('highlight'); }, 3000);
+                } else if (spinTimes === 2) {
+                    setTimeout(() => { clearInterval(interval); document.getElementById('gift8').classList.add('highlight'); }, 3000);
+                } 
+                // Third spin: LV白棋盘包包
+                else {
+                    setTimeout(() => { clearInterval(interval); document.getElementById('gift1').classList.add('highlight'); }, 3000);
+                }
+            }
+        }
     </script>
+
 </body>
 </html>
