@@ -6,23 +6,24 @@
     <title>生日礼物大放送</title>
     <style>
         body {
-            background: url('couple_anime_bg.jpg') no-repeat center center fixed;
+            background: url('birthday.jpeg') no-repeat center center fixed; /* 替换为你的动漫背景图片 */
             background-size: cover;
             font-family: '浪漫字体', sans-serif;
             color: #fff;
+            text-align: center;
+            padding: 20px;
         }
         .title {
-            text-align: center;
             font-size: 36px;
             color: #ff69b4;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
         .prize-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin: 20px auto;
             width: 80%;
+            margin: 0 auto;
         }
         .prize-item {
             background: rgba(255, 255, 255, 0.8);
@@ -30,14 +31,20 @@
             padding: 10px;
             text-align: center;
             color: #000;
+            transition: all 0.3s ease;
         }
         .prize-item img {
             max-width: 100%;
             border-radius: 10px;
         }
+        .prize-item.highlight {
+            background: #ff69b4;
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px #ff69b4;
+        }
         .draw-button {
-            display: block;
-            margin: 20px auto;
+            margin-top: 20px;
             padding: 15px 30px;
             font-size: 24px;
             color: #fff;
@@ -50,69 +57,100 @@
         .draw-button:hover {
             background: #ff1493;
         }
-        .result-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            color: #000;
-        }
-        .result-popup img {
-            max-width: 100%;
-            border-radius: 10px;
+        .draw-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
     <div class="title">生日礼物大放送</div>
-    <div class="prize-grid">
-        <div class="prize-item"><img src="lv_bag.jpg" alt="LV白棋盘包包"><br>LV白棋盘包包</div>
-        <div class="prize-item"><img src="tiffany_necklace.jpg" alt="蒂芙尼项链"><br>蒂芙尼项链</div>
-        <div class="prize-item"><img src="armani_watch.jpg" alt="阿玛尼手表"><br>阿玛尼手表</div>
-        <div class="prize-item"><img src="chanel_perfume.jpg" alt="香奈儿香水"><br>香奈儿香水</div>
-        <div class="prize-item"><img src="ysl_lipstick.jpg" alt="YSL口红"><br>YSL口红</div>
-        <div class="prize-item"><img src="seafood_buffet.jpg" alt="海鲜自助餐"><br>海鲜自助餐</div>
-        <div class="prize-item"><img src="spicy_fish.jpg" alt="小辣鱼"><br>小辣鱼若干包</div>
-        <div class="prize-item"><img src="rmb_10.jpg" alt="RMB10元"><br>RMB10元</div>
-        <div class="prize-item"><img src="boyfriend_kiss.jpg" alt="男朋友香吻"><br>男朋友香吻</div>
+    <div class="prize-grid" id="prizeGrid">
+        <div class="prize-item" data-prize="LV白棋盘包包"><img src="lv_bag.jpg" alt="LV白棋盘包包"><br>LV白棋盘包包</div>
+        <div class="prize-item" data-prize="蒂芙尼项链"><img src="tiffany_necklace.jpg" alt="蒂芙尼项链"><br>蒂芙尼项链</div>
+        <div class="prize-item" data-prize="阿玛尼手表"><img src="armani_watch.jpg" alt="阿玛尼手表"><br>阿玛尼手表</div>
+        <div class="prize-item" data-prize="香奈儿香水"><img src="chanel_perfume.jpg" alt="香奈儿香水"><br>香奈儿香水</div>
+        <div class="prize-item" data-prize="YSL口红"><img src="ysl_lipstick.jpg" alt="YSL口红"><br>YSL口红</div>
+        <div class="prize-item" data-prize="海鲜自助餐"><img src="seafood_buffet.jpg" alt="海鲜自助餐"><br>海鲜自助餐</div>
+        <div class="prize-item" data-prize="小辣鱼若干包"><img src="spicy_fish.jpg" alt="小辣鱼若干包"><br>小辣鱼若干包</div>
+        <div class="prize-item" data-prize="RMB10元"><img src="rmb_10.jpg" alt="RMB10元"><br>RMB10元</div>
+        <div class="prize-item" data-prize="男朋友香吻一个"><img src="boyfriend_kiss.jpg" alt="男朋友香吻一个"><br>男朋友香吻一个</div>
     </div>
-    <button class="draw-button" onclick="drawPrize()">点击抽奖</button>
-    <div class="result-popup" id="resultPopup">
-        <img id="resultImage" src="" alt="中奖奖品">
-        <div id="resultText">恭喜您获得XXX</div>
-        <button onclick="closePopup()">关闭</button>
-    </div>
+    <button class="draw-button" id="drawButton">点击抽奖</button>
 
     <script>
-        const prizes = [
-            { name: "LV白棋盘包包", image: "lv_bag.jpg" },
-            { name: "蒂芙尼项链", image: "tiffany_necklace.jpg" },
-            { name: "阿玛尼手表", image: "armani_watch.jpg" },
-            { name: "香奈儿香水", image: "chanel_perfume.jpg" },
-            { name: "YSL口红", image: "ysl_lipstick.jpg" },
-            { name: "海鲜自助餐", image: "seafood_buffet.jpg" },
-            { name: "小辣鱼若干包", image: "spicy_fish.jpg" },
-            { name: "RMB10元", image: "rmb_10.jpg" },
-            { name: "男朋友香吻", image: "boyfriend_kiss.jpg" }
-        ];
+        const prizes = document.querySelectorAll('.prize-item');
+        const drawButton = document.getElementById('drawButton');
+        let remainingChances = 3; // 总抽奖机会
+        let isDrawing = false; // 是否正在抽奖
 
+        // 抽奖逻辑
         function drawPrize() {
-            const randomIndex = Math.floor(Math.random() * prizes.length);
-            const prize = prizes[randomIndex];
-            document.getElementById("resultImage").src = prize.image;
-            document.getElementById("resultText").innerText = `恭喜您获得${prize.name}`;
-            document.getElementById("resultPopup").style.display = "block";
+            if (isDrawing || remainingChances <= 0) return;
+            isDrawing = true;
+            drawButton.disabled = true;
+
+            let currentIndex = 0;
+            let speed = 100; // 初始速度
+
+            // 模拟抽奖过程
+            const drawInterval = setInterval(() => {
+                // 取消上一个高亮
+                prizes[currentIndex].classList.remove('highlight');
+                // 切换到下一个奖品
+                currentIndex = (currentIndex + 1) % prizes.length;
+                prizes[currentIndex].classList.add('highlight');
+
+                // 逐渐减速
+                if (speed < 1000) {
+                    speed += 50;
+                }
+
+                // 最后一次抽奖，固定结果
+                if (remainingChances === 1 && speed >= 1000) {
+                    clearInterval(drawInterval);
+                    setTimeout(() => {
+                        highlightPrize('LV白棋盘包包');
+                        remainingChances--;
+                        isDrawing = false;
+                        drawButton.disabled = false;
+                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
+                    }, 1000);
+                } else if (remainingChances === 2 && speed >= 1000) {
+                    clearInterval(drawInterval);
+                    setTimeout(() => {
+                        highlightPrize('RMB10元');
+                        remainingChances--;
+                        isDrawing = false;
+                        drawButton.disabled = false;
+                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
+                    }, 1000);
+                } else if (remainingChances === 3 && speed >= 1000) {
+                    clearInterval(drawInterval);
+                    setTimeout(() => {
+                        highlightPrize('男朋友香吻一个');
+                        remainingChances--;
+                        isDrawing = false;
+                        drawButton.disabled = false;
+                        drawButton.innerText = `剩余抽奖次数：${remainingChances}`;
+                    }, 1000);
+                }
+            }, speed);
         }
 
-        function closePopup() {
-            document.getElementById("resultPopup").style.display = "none";
+        // 高亮显示中奖奖品
+        function highlightPrize(prizeName) {
+            prizes.forEach(prize => {
+                if (prize.getAttribute('data-prize') === prizeName) {
+                    prize.classList.add('highlight');
+                } else {
+                    prize.classList.remove('highlight');
+                }
+            });
         }
+
+        // 绑定抽奖按钮点击事件
+        drawButton.addEventListener('click', drawPrize);
     </script>
 </body>
 </html>
