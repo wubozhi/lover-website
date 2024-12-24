@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽奖网站</title>
+    <title>九宫格抽奖</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,39 +12,29 @@
             padding: 0;
             background-color: #f4f4f4;
         }
-        .wheel-container {
-            position: relative;
-            margin: 50px auto;
-            width: 300px;
-            height: 300px;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 50px;
         }
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 10px solid #333;
-            position: relative;
-            transform-origin: center;
-            animation: spin 0s ease-out;
-        }
-        .segment {
-            position: absolute;
-            width: 50%;
-            height: 50%;
+        .grid-item {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background-color: #ffcc00;
-            transform-origin: 100% 100%;
-            clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
         }
-        .pointer {
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 25px solid red;
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
+        .highlight {
+            background-color: #28a745 !important;
+            color: #fff !important;
         }
         button {
             margin-top: 30px;
@@ -62,55 +52,71 @@
     </style>
 </head>
 <body>
-    <h1>抽奖活动</h1>
-    <div class="wheel-container">
-        <div class="pointer"></div>
-        <div id="wheel" class="wheel"></div>
+    <h1>九宫格抽奖</h1>
+    <div class="grid-container">
+        <div class="grid-item" id="prize-0">LV白棋盘包包一个</div>
+        <div class="grid-item" id="prize-1">蒂芙尼项链一条</div>
+        <div class="grid-item" id="prize-2">阿玛尼手表一条</div>
+        <div class="grid-item" id="prize-3">香奈儿香水一瓶</div>
+        <div class="grid-item" id="prize-4">YSL口红一支</div>
+        <div class="grid-item" id="prize-5">海鲜自助餐一顿</div>
+        <div class="grid-item" id="prize-6">小辣鱼若干包</div>
+        <div class="grid-item" id="prize-7">RMB10元</div>
+        <div class="grid-item" id="prize-8">男朋友香吻一个</div>
     </div>
-    <button id="spinButton">开始抽奖</button>
+    <button id="drawButton">开始抽奖</button>
 
     <script>
-        const wheel = document.getElementById('wheel');
-        const spinButton = document.getElementById('spinButton');
-
         const prizes = [
             "LV白棋盘包包一个",
             "蒂芙尼项链一条",
+            "阿玛尼手表一条",
+            "香奈儿香水一瓶",
             "YSL口红一支",
+            "海鲜自助餐一顿",
+            "小辣鱼若干包",
             "RMB10元",
-            "男朋友香吻一个",
-            "谢谢参与"
+            "男朋友香吻一个"
         ];
-        const segmentAngle = 360 / prizes.length;
 
-        // Populate the wheel with segments
-        prizes.forEach((prize, index) => {
-            const segment = document.createElement('div');
-            segment.className = 'segment';
-            segment.style.backgroundColor = `hsl(${index * 60}, 70%, 60%)`;
-            segment.style.transform = `rotate(${index * segmentAngle}deg)`;
-            const label = document.createElement('span');
-            label.textContent = prize;
-            label.style.position = 'absolute';
-            label.style.transform = `rotate(${segmentAngle / 2}deg) translate(100%, 0)`;
-            label.style.transformOrigin = '0 50%';
-            label.style.color = 'white';
-            segment.appendChild(label);
-            wheel.appendChild(segment);
-        });
+        const drawButton = document.getElementById('drawButton');
+        const gridItems = document.querySelectorAll('.grid-item');
 
-        spinButton.addEventListener('click', () => {
-            spinButton.disabled = true;
-            const spinDuration = Math.random() * 2000 + 2000; // Random spin duration between 2s and 4s
-            const endAngle = 360 * 3 + (360 - segmentAngle / 2); // Ensure it always lands on the first prize
+        let highlightIndex = 0;
+        let interval;
 
-            wheel.style.animation = `spin ${spinDuration / 1000}s cubic-bezier(0.1, 0.9, 0.1, 1) forwards`;
-            wheel.style.transform = `rotate(${endAngle}deg)`;
+        function startHighlighting() {
+            interval = setInterval(() => {
+                gridItems[highlightIndex].classList.remove('highlight');
+                highlightIndex = (highlightIndex + 1) % gridItems.length;
+                gridItems[highlightIndex].classList.add('highlight');
+            }, 100);
+        }
 
+        function stopHighlighting() {
+            clearInterval(interval);
+        }
+
+        function pickPrize() {
+            const chosenIndex = Math.floor(Math.random() * prizes.length);
             setTimeout(() => {
-                alert(`恭喜您获得：${prizes[0]}!`);
-                spinButton.disabled = false;
-            }, spinDuration);
+                stopHighlighting();
+                gridItems.forEach((item, index) => {
+                    item.classList.remove('highlight');
+                    if (index === chosenIndex) {
+                        item.classList.add('highlight');
+                        alert(`恭喜您获得：${prizes[chosenIndex]}!`);
+                    }
+                });
+                drawButton.disabled = false;
+            }, 3000); // Stops after 3 seconds
+            return chosenIndex;
+        }
+
+        drawButton.addEventListener('click', () => {
+            drawButton.disabled = true;
+            startHighlighting();
+            pickPrize();
         });
     </script>
 </body>
