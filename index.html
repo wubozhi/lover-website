@@ -1,233 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Gift Lottery</title>
+    <title>生日礼物大放送</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background: url('https://example.com/couple-anime-birthday.jpg') no-repeat center center;
+            font-family: Arial, sans-serif;
+            background: url('couple_kissing_animation.gif') no-repeat center center fixed;
             background-size: cover;
+            text-align: center;
+            color: white;
+            padding-top: 50px;
+        }
+
+        .container {
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .prizes {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 18px;
         }
 
-        .heart {
-            width: 50px;
-            height: 50px;
-            position: absolute;
-            background: red;
-            transform: rotate(-45deg);
-            animation: float 5s infinite;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 50px;
-            height: 50px;
-            background: red;
-            position: absolute;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -25px;
-            left: 0;
-        }
-
-        .heart::after {
-            left: 25px;
-            top: 0;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(-45deg);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-100px) rotate(-45deg);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-200px) rotate(-45deg);
-                opacity: 0;
-            }
-        }
-
-        .lottery-container {
-            background: rgba(255, 255, 255, 0.9);
-            width: 500px;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            z-index: 2;
-        }
-
-        .lottery-title {
-            font-size: 30px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px #000000;
-        }
-
-        .prize-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .prize-item {
-            padding: 10px;
-            background: #f8f9fa;
+        .prize {
+            border: 2px solid white;
+            padding: 15px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            color: #2c3e50;
-            text-align: center;
-            transition: transform 0.3s;
+            width: 150px;
+            background: rgba(0, 0, 0, 0.6);
         }
 
-        .prize-item:hover {
-            transform: scale(1.1);
-        }
-
-        .start-button {
-            font-size: 20px;
-            padding: 10px 20px;
-            background: #3498db;
+        #drawButton {
+            background-color: #ff6347;
             color: white;
+            padding: 15px 30px;
+            font-size: 24px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .start-button:hover {
-            background: #2980b9;
-        }
-
-        .result-message {
             margin-top: 20px;
-            font-size: 22px;
-            color: #e67e22;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #drawButton:hover {
+            background-color: #ff4500;
+        }
+
+        .animation {
+            width: 200px;
+            height: 200px;
+            background: url('birthday_gift_animation.gif') no-repeat center center;
+            background-size: contain;
+            margin: 20px auto;
+        }
+
+        .result {
+            margin-top: 40px;
+            font-size: 32px;
             font-weight: bold;
-        }
-
-        .floating-hearts {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .floating-hearts .heart {
-            position: absolute;
-            bottom: 0;
-            animation: float 5s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-50vh) rotate(180deg);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="floating-hearts">
-        <div class="heart" style="left: 20%; animation-duration: 6s;"></div>
-        <div class="heart" style="left: 50%; animation-duration: 4s;"></div>
-        <div class="heart" style="left: 70%; animation-duration: 7s;"></div>
-        <div class="heart" style="left: 40%; animation-duration: 5s;"></div>
-        <div class="heart" style="left: 80%; animation-duration: 6s;"></div>
-    </div>
-    <div class="lottery-container">
-        <div class="lottery-title">🎉 生日礼物大放送 🎂</div>
-        <div class="prize-grid">
-            <div class="prize-item" id="prize1">LV白棋盘包包</div>
-            <div class="prize-item" id="prize2">蒂芙尼项链</div>
-            <div class="prize-item" id="prize3">阿玛尼手表</div>
-            <div class="prize-item" id="prize4">香奈儿香水</div>
-            <div class="prize-item" id="prize5">YSL口红</div>
-            <div class="prize-item" id="prize6">海鲜自助餐</div>
-            <div class="prize-item" id="prize7">小辣鱼若干包</div>
-            <div class="prize-item" id="prize8">RMB10元</div>
-            <div class="prize-item" id="prize9">男朋友香吻</div>
+    <div class="container">
+        <h1>生日礼物大放送</h1>
+        <div class="animation"></div>
+        <div class="prizes">
+            <div class="prize">LV白棋盘包包</div>
+            <div class="prize">蒂芙尼项链</div>
+            <div class="prize">阿玛尼手表</div>
+            <div class="prize">香奈儿香水</div>
+            <div class="prize">YSL口红</div>
+            <div class="prize">海鲜自助餐</div>
+            <div class="prize">小辣鱼若干包</div>
+            <div class="prize">RMB10元</div>
+            <div class="prize">男朋友香吻</div>
         </div>
-        <button class="start-button" onclick="startLottery()">开始抽奖</button>
-        <div class="result-message" id="resultMessage"></div>
+        <button id="drawButton" onclick="drawPrize()">点击抽奖</button>
+        <div class="result" id="result"></div>
     </div>
 
     <script>
         const prizes = [
-            'LV白棋盘包包',
-            '蒂芙尼项链',
-            '阿玛尼手表',
-            '香奈儿香水',
-            'YSL口红',
-            '海鲜自助餐',
-            '小辣鱼若干包',
-            'RMB10元',
-            '男朋友香吻'
+            "LV白棋盘包包",
+            "蒂芙尼项链",
+            "阿玛尼手表",
+            "香奈儿香水",
+            "YSL口红",
+            "海鲜自助餐",
+            "小辣鱼若干包",
+            "RMB10元",
+            "男朋友香吻"
         ];
 
-        let interval;
+        function drawPrize() {
+            let resultElement = document.getElementById("result");
+            let button = document.getElementById("drawButton");
+            button.disabled = true; // 禁用按钮，防止重复点击
 
-        function startLottery() {
-            const resultMessage = document.getElementById('resultMessage');
-            const startButton = document.querySelector('.start-button');
-
-            startButton.disabled = true;
-            resultMessage.textContent = '';
-
-            let currentIndex = 0;
-            interval = setInterval(() => {
-                const items = document.querySelectorAll('.prize-item');
-                items.forEach((item, index) => {
-                    item.style.background = '#f8f9fa';
-                    item.style.color = '#2c3e50';
-                });
-                items[currentIndex].style.background = '#e74c3c';
-                items[currentIndex].style.color = '#fff';
-
-                currentIndex = (currentIndex + 1) % prizes.length;
+            let i = 0;
+            let interval = setInterval(() => {
+                resultElement.innerText = prizes[i];
+                i++;
+                if (i >= prizes.length) i = 0;
             }, 100);
 
+            // 模拟抽奖过程
             setTimeout(() => {
-                clearInterval(interval);
-                const selectedIndex = Math.floor(Math.random() * prizes.length);
-                const selectedPrize = prizes[selectedIndex];
-
-                const items = document.querySelectorAll('.prize-item');
-                items.forEach((item, index) => {
-                    item.style.background = '#f8f9fa';
-                    item.style.color = '#2c3e50';
-                });
-                items[selectedIndex].style.background = '#2ecc71';
-                items[selectedIndex].style.color = '#fff';
-
-                resultMessage.textContent = `恭喜！你抽到了：${selectedPrize}`;
-                startButton
+                clearInterval(interval); // 停止循环
+                resultElement.innerText = "恭喜你！你赢得了：" + prizes[Math.floor(Math.random() * prizes.length)];
+                button.disabled = false; // 启用按钮
+            }, 3000); // 3秒后抽出结果
+        }
+    </script>
+</body>
+</html>
