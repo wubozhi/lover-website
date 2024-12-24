@@ -9,7 +9,8 @@
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f5a623, #ff7675);
+            background: url('https://example.com/couple-anime-birthday.jpg') no-repeat center center;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,8 +19,8 @@
         }
 
         .lottery-container {
-            background: white;
-            width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 500px;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -27,24 +28,39 @@
         }
 
         .lottery-title {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
-            color: #f39c12;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000000;
+        }
+
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        .gift-wheel {
-            width: 100%;
-            height: 200px;
-            background: url('https://example.com/gift-wheel.png') no-repeat center;
-            background-size: contain;
-            margin-bottom: 20px;
+        .prize-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #2c3e50;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .prize-item:hover {
+            transform: scale(1.1);
         }
 
         .start-button {
-            font-size: 18px;
+            font-size: 20px;
             padding: 10px 20px;
-            background: #e74c3c;
+            background: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
@@ -53,60 +69,86 @@
         }
 
         .start-button:hover {
-            background: #c0392b;
+            background: #2980b9;
         }
 
         .result-message {
             margin-top: 20px;
-            font-size: 20px;
-            color: #2ecc71;
+            font-size: 22px;
+            color: #e67e22;
             font-weight: bold;
-        }
-
-        .heart-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://example.com/hearts.gif') no-repeat center;
-            background-size: cover;
-            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="heart-animation"></div>
     <div class="lottery-container">
-        <div class="lottery-title">🎁 抽取生日礼物 🎂</div>
-        <div class="gift-wheel" id="giftWheel"></div>
+        <div class="lottery-title">🎉 生日礼物大放送 🎂</div>
+        <div class="prize-grid">
+            <div class="prize-item" id="prize1">LV白棋盘包包</div>
+            <div class="prize-item" id="prize2">蒂芙尼项链</div>
+            <div class="prize-item" id="prize3">阿玛尼手表</div>
+            <div class="prize-item" id="prize4">香奈儿香水</div>
+            <div class="prize-item" id="prize5">YSL口红</div>
+            <div class="prize-item" id="prize6">海鲜自助餐</div>
+            <div class="prize-item" id="prize7">小辣鱼若干包</div>
+            <div class="prize-item" id="prize8">RMB10元</div>
+            <div class="prize-item" id="prize9">男朋友香吻</div>
+        </div>
         <button class="start-button" onclick="startLottery()">开始抽奖</button>
         <div class="result-message" id="resultMessage"></div>
     </div>
 
     <script>
-        const gifts = [
-            '一枚钻戒 💍',
-            '浪漫晚餐 🍽️',
-            '情侣旅行 🛫',
-            '温馨手作 🎨',
-            '定制礼物 🎁',
-            '花束 💐',
-            '写满心意的信 ✉️',
+        const prizes = [
+            'LV白棋盘包包',
+            '蒂芙尼项链',
+            '阿玛尼手表',
+            '香奈儿香水',
+            'YSL口红',
+            '海鲜自助餐',
+            '小辣鱼若干包',
+            'RMB10元',
+            '男朋友香吻'
         ];
 
-        function startLottery() {
-            const button = document.querySelector('.start-button');
-            const resultMessage = document.getElementById('resultMessage');
+        let interval;
 
-            button.disabled = true;
-            resultMessage.textContent = '抽取中，请稍候...';
+        function startLottery() {
+            const resultMessage = document.getElementById('resultMessage');
+            const startButton = document.querySelector('.start-button');
+
+            startButton.disabled = true;
+            resultMessage.textContent = '';
+
+            let currentIndex = 0;
+            interval = setInterval(() => {
+                const items = document.querySelectorAll('.prize-item');
+                items.forEach((item, index) => {
+                    item.style.background = '#f8f9fa';
+                    item.style.color = '#2c3e50';
+                });
+                items[currentIndex].style.background = '#e74c3c';
+                items[currentIndex].style.color = '#fff';
+
+                currentIndex = (currentIndex + 1) % prizes.length;
+            }, 100);
 
             setTimeout(() => {
-                const selectedGift = gifts[Math.floor(Math.random() * gifts.length)];
-                resultMessage.textContent = `恭喜！你抽到了：${selectedGift}`;
-                button.disabled = false;
-            }, 3000); // Simulate a 3-second animation or delay
+                clearInterval(interval);
+                const selectedIndex = Math.floor(Math.random() * prizes.length);
+                const selectedPrize = prizes[selectedIndex];
+
+                const items = document.querySelectorAll('.prize-item');
+                items.forEach((item, index) => {
+                    item.style.background = '#f8f9fa';
+                    item.style.color = '#2c3e50';
+                });
+                items[selectedIndex].style.background = '#2ecc71';
+                items[selectedIndex].style.color = '#fff';
+
+                resultMessage.textContent = `恭喜！你抽到了：${selectedPrize}`;
+                startButton.disabled = false;
+            }, 3000); // Run for 3 seconds
         }
     </script>
 </body>
