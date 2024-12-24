@@ -1,92 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生日礼物大放送</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: url('couple_kissing_animation.gif') no-repeat center center fixed;
+            background-image: url('couple_kissing_anime.jpg');
             background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
             text-align: center;
-            color: white;
-            padding-top: 50px;
         }
-
-        .container {
-            position: relative;
-            margin-top: 50px;
-        }
-
-        .prizes {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            font-size: 18px;
-        }
-
-        .prize {
-            border: 2px solid white;
-            padding: 15px;
-            border-radius: 10px;
-            width: 150px;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        #drawButton {
-            background-color: #ff6347;
-            color: white;
-            padding: 15px 30px;
-            font-size: 24px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff1493;
             margin-top: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        #drawButton:hover {
-            background-color: #ff4500;
+        .btn {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #ff69b4;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
         }
-
-        .animation {
+        .prizes {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+        .prize-box {
+            display: inline-block;
             width: 200px;
-            height: 200px;
-            background: url('birthday_gift_animation.gif') no-repeat center center;
-            background-size: contain;
-            margin: 20px auto;
+            height: 100px;
+            line-height: 100px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            margin: 10px;
         }
-
         .result {
-            margin-top: 40px;
-            font-size: 32px;
+            margin-top: 30px;
+            font-size: 28px;
+            color: yellow;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>生日礼物大放送</h1>
-        <div class="animation"></div>
-        <div class="prizes">
-            <div class="prize">LV白棋盘包包</div>
-            <div class="prize">蒂芙尼项链</div>
-            <div class="prize">阿玛尼手表</div>
-            <div class="prize">香奈儿香水</div>
-            <div class="prize">YSL口红</div>
-            <div class="prize">海鲜自助餐</div>
-            <div class="prize">小辣鱼若干包</div>
-            <div class="prize">RMB10元</div>
-            <div class="prize">男朋友香吻</div>
-        </div>
-        <button id="drawButton" onclick="drawPrize()">点击抽奖</button>
-        <div class="result" id="result"></div>
+
+    <div class="title">生日礼物大放送</div>
+    <button class="btn" onclick="startLottery()">点击抽奖</button>
+
+    <div class="prizes">
+        <div class="prize-box">LV白棋盘包包</div>
+        <div class="prize-box">蒂芙尼项链</div>
+        <div class="prize-box">阿玛尼手表</div>
+        <div class="prize-box">香奈儿香水</div>
+        <div class="prize-box">YSL口红</div>
+        <div class="prize-box">海鲜自助餐</div>
+        <div class="prize-box">小辣鱼若干包</div>
+        <div class="prize-box">RMB10元</div>
+        <div class="prize-box">男朋友香吻</div>
     </div>
 
+    <div class="result" id="result"></div>
+
     <script>
-        const prizes = [
+        let prizes = [
             "LV白棋盘包包",
             "蒂芙尼项链",
             "阿玛尼手表",
@@ -98,25 +80,23 @@
             "男朋友香吻"
         ];
 
-        function drawPrize() {
-            let resultElement = document.getElementById("result");
-            let button = document.getElementById("drawButton");
-            button.disabled = true; // 禁用按钮，防止重复点击
+        function startLottery() {
+            let resultDiv = document.getElementById('result');
+            let currentIndex = 0;
 
-            let i = 0;
-            let interval = setInterval(() => {
-                resultElement.innerText = prizes[i];
-                i++;
-                if (i >= prizes.length) i = 0;
+            // Set an interval to simulate random prize selection
+            let interval = setInterval(function() {
+                currentIndex = Math.floor(Math.random() * prizes.length);
+                resultDiv.textContent = "正在抽奖... " + prizes[currentIndex];
             }, 100);
 
-            // 模拟抽奖过程
-            setTimeout(() => {
-                clearInterval(interval); // 停止循环
-                resultElement.innerText = "恭喜你！你赢得了：" + prizes[Math.floor(Math.random() * prizes.length)];
-                button.disabled = false; // 启用按钮
-            }, 3000); // 3秒后抽出结果
+            // Stop the interval after 3 seconds and display the result
+            setTimeout(function() {
+                clearInterval(interval);
+                resultDiv.textContent = "恭喜你，获得了： " + prizes[currentIndex];
+            }, 3000);
         }
     </script>
+
 </body>
 </html>
