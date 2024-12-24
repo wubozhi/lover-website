@@ -1,7 +1,9 @@
 body {
-    background-color: #fce4ec;
-    font-family: 'Arial', sans-serif;
+    background-image: url('birthday.jpeg');
+    background-size: cover;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
     text-align: center;
+    color: #fff;
 }
 
 .container {
@@ -10,50 +12,66 @@ body {
 }
 
 .title h1 {
-    font-size: 40px;
-    color: #d32f2f;
+    font-size: 50px;
+    color: #ff4081;
     font-weight: bold;
+    margin-top: 50px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .prize-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
+    grid-gap: 15px;
     margin: 30px 0;
 }
 
 .prize-item {
-    padding: 30px;
-    background-color: #fff;
-    border: 2px solid #ddd;
+    padding: 20px;
+    background-color: #ffcccb;
+    border: 3px solid #ff69b4;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.prize-item img {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.prize-item p {
     font-size: 18px;
-    color: #333;
-    cursor: pointer;
+    margin-top: 10px;
+    color: #d32f2f;
 }
 
 .prize-item.highlight {
-    background-color: #ffeb3b;
+    background-color: #fff9c4;
     border-color: #ff9800;
     color: #000;
+    transform: scale(1.1);
 }
 
 button {
-    background-color: #d32f2f;
+    background-color: #ff4081;
     color: white;
-    padding: 10px 20px;
-    font-size: 20px;
+    padding: 15px 30px;
+    font-size: 24px;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #c2185b;
+    background-color: #e91e63;
 }
 
 .message {
     margin-top: 20px;
     font-size: 24px;
-    color: #c2185b;
+    color: #ff4081;
+    font-weight: bold;
 }
