@@ -3,121 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>九宫格抽奖</title>
+    <title>Birthday Gift Lottery</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-gap: 10px;
-            justify-content: center;
-            margin-top: 50px;
-        }
-        .grid-item {
-            width: 100px;
-            height: 100px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5a623, #ff7675);
             display: flex;
-            align-items: center;
             justify-content: center;
-            background-color: #ffcc00;
-            border: 2px solid #333;
-            border-radius: 10px;
-            font-size: 14px;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .lottery-container {
+            background: white;
+            width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .lottery-title {
+            font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color: #f39c12;
+            margin-bottom: 20px;
         }
-        .highlight {
-            background-color: #28a745 !important;
-            color: #fff !important;
+
+        .gift-wheel {
+            width: 100%;
+            height: 200px;
+            background: url('https://example.com/gift-wheel.png') no-repeat center;
+            background-size: contain;
+            margin-bottom: 20px;
         }
-        button {
-            margin-top: 30px;
+
+        .start-button {
+            font-size: 18px;
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: #fff;
+            background: #e74c3c;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        button:disabled {
-            background-color: #aaa;
+
+        .start-button:hover {
+            background: #c0392b;
+        }
+
+        .result-message {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .heart-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://example.com/hearts.gif') no-repeat center;
+            background-size: cover;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <h1>九宫格抽奖</h1>
-    <div class="grid-container">
-        <div class="grid-item" id="prize-0">LV白棋盘包包一个</div>
-        <div class="grid-item" id="prize-1">蒂芙尼项链一条</div>
-        <div class="grid-item" id="prize-2">阿玛尼手表一条</div>
-        <div class="grid-item" id="prize-3">香奈儿香水一瓶</div>
-        <div class="grid-item" id="prize-4">YSL口红一支</div>
-        <div class="grid-item" id="prize-5">海鲜自助餐一顿</div>
-        <div class="grid-item" id="prize-6">小辣鱼若干包</div>
-        <div class="grid-item" id="prize-7">RMB10元</div>
-        <div class="grid-item" id="prize-8">男朋友香吻一个</div>
+    <div class="heart-animation"></div>
+    <div class="lottery-container">
+        <div class="lottery-title">🎁 抽取生日礼物 🎂</div>
+        <div class="gift-wheel" id="giftWheel"></div>
+        <button class="start-button" onclick="startLottery()">开始抽奖</button>
+        <div class="result-message" id="resultMessage"></div>
     </div>
-    <button id="drawButton">开始抽奖</button>
 
     <script>
-        const prizes = [
-            "LV白棋盘包包一个",
-            "蒂芙尼项链一条",
-            "阿玛尼手表一条",
-            "香奈儿香水一瓶",
-            "YSL口红一支",
-            "海鲜自助餐一顿",
-            "小辣鱼若干包",
-            "RMB10元",
-            "男朋友香吻一个"
+        const gifts = [
+            '一枚钻戒 💍',
+            '浪漫晚餐 🍽️',
+            '情侣旅行 🛫',
+            '温馨手作 🎨',
+            '定制礼物 🎁',
+            '花束 💐',
+            '写满心意的信 ✉️',
         ];
 
-        const drawButton = document.getElementById('drawButton');
-        const gridItems = document.querySelectorAll('.grid-item');
+        function startLottery() {
+            const button = document.querySelector('.start-button');
+            const resultMessage = document.getElementById('resultMessage');
 
-        let highlightIndex = 0;
-        let interval;
+            button.disabled = true;
+            resultMessage.textContent = '抽取中，请稍候...';
 
-        function startHighlighting() {
-            interval = setInterval(() => {
-                gridItems[highlightIndex].classList.remove('highlight');
-                highlightIndex = (highlightIndex + 1) % gridItems.length;
-                gridItems[highlightIndex].classList.add('highlight');
-            }, 100);
-        }
-
-        function stopHighlighting() {
-            clearInterval(interval);
-        }
-
-        function pickPrize() {
-            const chosenIndex = Math.floor(Math.random() * prizes.length);
             setTimeout(() => {
-                stopHighlighting();
-                gridItems.forEach((item, index) => {
-                    item.classList.remove('highlight');
-                    if (index === chosenIndex) {
-                        item.classList.add('highlight');
-                        alert(`恭喜您获得：${prizes[chosenIndex]}!`);
-                    }
-                });
-                drawButton.disabled = false;
-            }, 3000); // Stops after 3 seconds
-            return chosenIndex;
+                const selectedGift = gifts[Math.floor(Math.random() * gifts.length)];
+                resultMessage.textContent = `恭喜！你抽到了：${selectedGift}`;
+                button.disabled = false;
+            }, 3000); // Simulate a 3-second animation or delay
         }
-
-        drawButton.addEventListener('click', () => {
-            drawButton.disabled = true;
-            startHighlighting();
-            pickPrize();
-        });
     </script>
 </body>
 </html>
