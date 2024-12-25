@@ -12,7 +12,7 @@ body {
     background-image: url('birthday.jpeg');
     background-size: cover;
     background-position: center;
-    height: 120vh;
+    height: 200vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,7 +22,7 @@ body {
 
 .overlay {
     background-color: rgba(255, 182, 193, 0.6);
-    padding: 20px;
+    padding: 5px;
     border-radius: 0px;
     text-align: bottom;
 }
