@@ -1,6 +1,6 @@
 let prizes = [
-    "LV白棋盘包包", "蒂芙尼项链", "阿玛尼手表", "香奈儿香水", 
-    "YSL口红", "海鲜自助餐", "小辣鱼", "RMB10元", "男朋友香吻"
+    "LV白棋盘包包一个", "蒂芙尼项链一条", "阿玛尼手表一只", "香奈儿香水一瓶", 
+    "YSL口红一支", "海鲜自助餐一顿", "小辣鱼若干包", "人民币520元", "男朋友香吻一个"
 ];
 
 let prizeOrder = [8, 7, 0];  // First two are "男朋友香吻" and "RMB10元", last one is "LV白棋盘包包"
@@ -24,15 +24,15 @@ function startLottery() {
 function rotateGrid() {
     let currentIndex = 0;
     let interval = setInterval(() => {
-        gridItems[currentIndex].classList.add('highlight'); // Add new highlight
-        gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight       
-        
+        gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight
+        gridItems[currentIndex].classList.add('highlight'); // Add new highlight       
         currentIndex = (currentIndex + 1) % gridItems.length;
     }, 100);
 
     // Slow down and stop the grid rotation
     setTimeout(() => {
         clearInterval(interval);
+        gridItems[2].classList.remove('highlight');
         highlightPrize();
     }, 3000); // Adjust duration for speed of rotation
 }
