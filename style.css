@@ -1,4 +1,128 @@
 body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #fff;
+    text-align: center;
+    color: #333;
+}
+
+/* 上半部分：背景和标题 */
+.top-section {
+    background-image: url('birthday.jpeg');
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.overlay h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #ffcccb;
+}
+
+.overlay p {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #fffacd;
+}
+
+.instructions {
+    margin-top: 15px;
+}
+
+.instructions p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffa07a;
+}
+
+.instructions ul {
+    text-align: left;
+    font-size: 18px;
+    margin: 10px auto;
+    padding: 0;
+    list-style-type: square;
+}
+
+/* 下半部分：九宫格和抽奖按钮 */
+.bottom-section {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    min-height: 50vh;
+}
+
+.prize-section {
+    margin: 20px auto;
+    width: 80%;
+}
+
+.prize-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+}
+
+.prize-item {
+    padding: 20px;
+    background-color: #ffe4e1;
+    border: 2px solid #ff69b4;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.prize-item img {
+    width: 80%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.prize-item p {
+    font-size: 16px;
+    color: #d32f2f;
+}
+
+button {
+    background-color: #ff4081;
+    color: white;
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e91e63;
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #ff4081;
+    font-weight: bold;
+}
+
+
+
+
+/* body {
     background-image: url('birthday.jpeg');
     background-size: cover;
     font-family: 'Papyrus', cursive, sans-serif;
@@ -121,3 +245,4 @@ button:hover {
 .footer ul li {
     margin-bottom: 5px;
 }
+ */
