@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height:250vh; /* 增加网页长度 */
+    height:200vh; /* 增加网页长度 */
 }
 
 .header {
