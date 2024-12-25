@@ -72,7 +72,7 @@ body {
 
 .prize-grid {
     display: grid;
-    grid-template-columns: repeat(3, 150px);
+    grid-template-columns: repeat(3, 100px);
     gap: 5px;
     width: 80%; /* 缩小九宫格 */
 }
