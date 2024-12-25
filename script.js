@@ -21,7 +21,7 @@ function startLottery() {
         message.textContent = "正在抽奖...";
         rotateGrid();
     } else {
-        message.textContent = "已经没有抽奖机会了！";
+        message.textContent = "抽奖机会用完了，明年再来好吗？";
     }
 }
 
