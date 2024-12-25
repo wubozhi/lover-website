@@ -77,10 +77,10 @@ body {
 }
 
 .prize-item {
-    padding: 20px;
+    padding: 10px;
     background-color: #ffe4e1;
     border: 2px solid #ff69b4;
-    border-radius: 15px;
+    border-radius: 10px;
     text-align: center;
     transition: transform 0.3s;
 }
@@ -88,8 +88,6 @@ body {
 .prize-item img {
     width: 80%;
     height: auto;
-    margin-bottom: 10px;
-    border-radius: 10px;
 }
 
 .prize-item p {
