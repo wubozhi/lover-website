@@ -45,6 +45,6 @@ function rotateGrid() {
 function highlightPrize() {
     const selectedPrize = prizeOrder[currentDraw];
     gridItems[selectedPrize].classList.add('highlight');
-    message.textContent = `恭喜你！你抽中了：${prizes[selectedPrize]}`;
+    message.textContent = `恭喜你！亲爱的，你抽中了：${prizes[selectedPrize]}`;
     currentDraw++;
 }
