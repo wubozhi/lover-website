@@ -36,8 +36,8 @@ function rotateGrid() {
     // Slow down and stop the grid rotation
     setTimeout(() => {
         clearInterval(interval);
-        gridItems[2].classList.remove('highlight');
         highlightPrize();
+        gridItems[2].classList.remove('highlight');
     }, 3000); // Adjust duration for speed of rotation
 }
 
