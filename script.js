@@ -24,8 +24,8 @@ function startLottery() {
 function rotateGrid() {
     let currentIndex = 0;
     let interval = setInterval(() => {
-        gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight
         gridItems[currentIndex].classList.add('highlight'); // Add new highlight
+        gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight       
         
         currentIndex = (currentIndex + 1) % gridItems.length;
     }, 100);
