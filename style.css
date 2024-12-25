@@ -73,7 +73,8 @@ body {
 .prize-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 15px;
+    gap: 10px;
+    width: 50%; /* 缩小九宫格 */
 }
 
 .prize-item {
