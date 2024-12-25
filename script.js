@@ -30,7 +30,7 @@ function rotateGrid() {
     let interval = setInterval(() => {
         gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight
         gridItems[currentIndex].classList.add('highlight'); // Add new highlight       
-        currentIndex = (currentIndex + randomInt1) % gridItems.length;
+        currentIndex = (currentIndex + 1) % gridItems.length;
     }, 100);
 
     // Slow down and stop the grid rotation
