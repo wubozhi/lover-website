@@ -30,14 +30,12 @@ function rotateGrid() {
     let interval = setInterval(() => {
         gridItems.forEach(item => item.classList.remove('highlight')); // Remove previous highlight
         gridItems[currentIndex].classList.add('highlight'); // Add new highlight       
-        currentIndex = (currentIndex + 1) % gridItems.length;
+        currentIndex = (currentIndex + randomInt1) % gridItems.length;
     }, 100);
 
     // Slow down and stop the grid rotation
     setTimeout(() => {
         clearInterval(interval);
-        // message.textContent = `恭喜你！你抽中了：${prizes[currentIndex]}`;
-        // currentDraw++;
         gridItems.forEach(item => item.classList.remove('highlight'));
         highlightPrize();
     }, 3000); // Adjust duration for speed of rotation
