@@ -2,8 +2,12 @@ let prizes = [
     "LV白棋盘包包一个", "蒂芙尼项链一条", "阿玛尼手表一只", "香奈儿香水一瓶", 
     "YSL口红一支", "海鲜自助餐一顿", "小辣鱼若干包", "人民币520元", "男朋友香吻一个"
 ];
-
-let prizeOrder = [8, 7, 0];  // First two are "男朋友香吻" and "RMB10元", last one is "LV白棋盘包包"
+let min = 0;
+let max = 8;
+let randomInt1 = Math.floor(Math.random() * (max - min + 1)) + min;
+let randomInt2 = Math.floor(Math.random() * (max - min + 1)) + min;
+let prizeOrder = [randomInt1, randomInt2, 0];  // First two are "男朋友香吻" and "RMB10元", last one is "LV白棋盘包包"
+prizeOrder.sort(() => Math.random() - 0.5);
 let currentDraw = 0;
 
 const gridItems = document.querySelectorAll('.prize-item');
