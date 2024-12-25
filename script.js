@@ -36,10 +36,10 @@ function rotateGrid() {
     // Slow down and stop the grid rotation
     setTimeout(() => {
         clearInterval(interval);
-        message.textContent = `恭喜你！你抽中了：${prizes[currentIndex]}`;
-        currentDraw++;
-        // highlightPrize();
-        // gridItems[2].classList.remove('highlight');
+        // message.textContent = `恭喜你！你抽中了：${prizes[currentIndex]}`;
+        // currentDraw++;
+        gridItems.forEach(item => item.classList.remove('highlight'));
+        highlightPrize();
     }, 3000); // Adjust duration for speed of rotation
    
 }
@@ -48,6 +48,5 @@ function highlightPrize() {
     const selectedPrize = prizeOrder[currentDraw];
     gridItems[selectedPrize].classList.add('highlight');
     message.textContent = `恭喜你！你抽中了：${prizes[selectedPrize]}`;
-
     currentDraw++;
 }
